@@ -1,7 +1,10 @@
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const MyNavbar = () => {
+  const location = useLocation();
+
+  const checkPath = (path) => (location.pathname === path ? "active" : "");
   return (
     <>
       <Navbar expand="lg" bg="bg-dark" data-bs-theme="dark">
@@ -16,19 +19,25 @@ const MyNavbar = () => {
           <Navbar.Toggle aria-controls="navbarSupportedContent" />
           <Navbar.Collapse id="navbarSupportedContent">
             <Nav className="me-auto mb-2 mb-lg-0">
-              <Link className="fw-bold active nav-link" to="/">
+              <Link className={`fw-bold nav-link ${checkPath("/")}`} to="/">
                 Home
               </Link>
-              <Link className="fw-bold nav-link" to="/TV Shows">
+              <Link
+                className={`fw-bold nav-link ${checkPath("tvshows")}`}
+                to="/tvshows"
+              >
                 TV Shows
               </Link>
-              <Link className="fw-bold nav-link" to="/Movie Details">
+              <Link
+                className={`fw-bold nav-link ${checkPath("details")}`}
+                to="/details"
+              >
                 Movie Details
               </Link>
-              <Link className="fw-bold nav-link" to="/">
+              <Link className={`fw-bold nav-link ${checkPath("")}`} to="/">
                 Recently Added
               </Link>
-              <Link className="fw-bold nav-link" to="/Not Found">
+              <Link className={`fw-bold nav-link ${checkPath("")}`} to="/">
                 My List
               </Link>
             </Nav>

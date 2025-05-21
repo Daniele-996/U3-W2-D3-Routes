@@ -1,25 +1,22 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col, Image, Spinner, Alert } from "react-bootstrap";
 
-class CreateGallery extends Component {
-  state = {
-    galleries: {},
-  };
+const CreateGallery = ({ film }) => {
+  const [galleries, setGalleries] = useState({});
 
-  componentDidMount() {
-    this.props.film.forEach((query) => {
-      this.fetchData(query);
+  useEffect(() => {
+    film.forEach((query) => {
+      fetchData(query);
     });
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [film]);
 
-  fetchData = (query) => {
+  const fetchData = (query) => {
     if (!query) return;
 
-    this.setState((newState) => ({
-      galleries: {
-        ...newState.galleries,
-        [query]: { loading: true, error: null, images: [] },
-      },
+    setGalleries((prevState) => ({
+      ...prevState,
+      [query]: { loading: true, error: null, images: [] },
     }));
 
     const API_KEY = "ef76adc";
@@ -32,38 +29,31 @@ class CreateGallery extends Component {
       .then((data) => {
         if (data.Response === "True") {
           const onlySixImg = data.Search.slice(0, 6);
-          this.setState((newState) => ({
-            galleries: {
-              ...newState.galleries,
-              [query]: { loading: false, error: null, images: onlySixImg },
-            },
+          setGalleries((prevState) => ({
+            ...prevState,
+            [query]: { loading: false, error: null, images: onlySixImg },
           }));
         } else {
-          this.setState((newState) => ({
-            galleries: {
-              ...newState.galleries,
-              [query]: { loading: false, error: data.Error, images: [] },
-            },
+          setGalleries((prevState) => ({
+            ...prevState,
+            [query]: { loading: false, error: data.Error, images: [] },
           }));
         }
       })
-
       .catch(() => {
-        this.setState((newState) => ({
-          galleries: {
-            ...newState.galleries,
-            [query]: {
-              loading: false,
-              error: "Errore nella chiamata API",
-              images: [],
-            },
+        setGalleries((prevState) => ({
+          ...prevState,
+          [query]: {
+            loading: false,
+            error: "Errore nella chiamata API",
+            images: [],
           },
         }));
       });
   };
 
-  renderNewGallery = (query) => {
-    const gallery = this.state.galleries[query] || {};
+  const renderNewGallery = (query) => {
+    const gallery = galleries[query] || {};
     const { images = [], loading = false, error = null } = gallery;
 
     return (
@@ -78,7 +68,7 @@ class CreateGallery extends Component {
 
         {error && <Alert variant="danger">{error}</Alert>}
 
-        <Row xs={1} sm={2} lg={6} xl={6} className="g-2 ">
+        <Row xs={1} sm={2} lg={6} xl={6} className="g-2">
           {images.map((poster) => (
             <Col key={poster.imdbID} className="text-center">
               <Image
@@ -97,13 +87,11 @@ class CreateGallery extends Component {
     );
   };
 
-  render() {
-    return (
-      <Container className="mt-1">
-        {this.props.film.map((q) => this.renderNewGallery(q))}
-      </Container>
-    );
-  }
-}
+  return (
+    <Container className="mt-1">
+      {film.map((q) => renderNewGallery(q))}
+    </Container>
+  );
+};
 
 export default CreateGallery;
