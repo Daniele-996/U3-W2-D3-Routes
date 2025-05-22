@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
+import { Navbar, Nav, Container, Row, Col, Dropdown } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 
 const MyNavbar = () => {
@@ -9,13 +9,13 @@ const MyNavbar = () => {
     <>
       <Navbar expand="lg" bg="bg-dark" data-bs-theme="dark">
         <Container fluid>
-          <Navbar.Brand href="#">
+          <Link to="/">
             <img
               src="src\assets\logo.png"
               alt="Logo"
               style={{ width: "100px", height: "55px" }}
             />
-          </Navbar.Brand>
+          </Link>
           <Navbar.Toggle aria-controls="navbarSupportedContent" />
           <Navbar.Collapse id="navbarSupportedContent">
             <Nav className="me-auto mb-2 mb-lg-0">
@@ -23,7 +23,7 @@ const MyNavbar = () => {
                 Home
               </Link>
               <Link
-                className={`fw-bold nav-link ${checkPath("tvshows")}`}
+                className={`fw-bold nav-link ${checkPath("/tvshows")}`}
                 to="/tvshows"
               >
                 TV Shows
@@ -34,10 +34,10 @@ const MyNavbar = () => {
               >
                 Movie Details
               </Link>
-              <Link className={`fw-bold nav-link ${checkPath("")}`} to="/">
+              <Link className={`fw-bold nav-link ${checkPath("")}`} to="">
                 Recently Added
               </Link>
-              <Link className={`fw-bold nav-link ${checkPath("")}`} to="/">
+              <Link className={`fw-bold nav-link ${checkPath("")}`} to="">
                 My List
               </Link>
             </Nav>
@@ -54,34 +54,22 @@ const MyNavbar = () => {
       <Row className="row align-items-center" style={{ maxWidth: "98%" }}>
         <Col className="col-md-6 d-flex align-items-center">
           <h2 className=" me-4">TV Shows</h2>
-          <div className="dropdown">
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm dropdown-toggle rounded-0"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="secondary"
+              size="sm"
+              className="rounded-0"
               style={{ backgroundColor: "#221f1f" }}
             >
               Genres
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Comedy
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Drama
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Thriller
-                </a>
-              </li>
-            </ul>
-          </div>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item href="#">Comedy</Dropdown.Item>
+              <Dropdown.Item href="#">Drama</Dropdown.Item>
+              <Dropdown.Item href="#">Thriller</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Col>
 
         <Col className="col-md-6 d-flex justify-content-end">

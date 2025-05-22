@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Image, Spinner, Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const CreateGallery = ({ film }) => {
   const [galleries, setGalleries] = useState({});
@@ -20,7 +21,7 @@ const CreateGallery = ({ film }) => {
     }));
 
     const API_KEY = "ef76adc";
-    const url = `http://www.omdbapi.com/?s=${encodeURIComponent(
+    const url = `https://www.omdbapi.com/?s=${encodeURIComponent(
       query
     )}&apikey=${API_KEY}`;
 
@@ -71,15 +72,17 @@ const CreateGallery = ({ film }) => {
         <Row xs={1} sm={2} lg={6} xl={6} className="g-2">
           {images.map((poster) => (
             <Col key={poster.imdbID} className="text-center">
-              <Image
-                src={
-                  poster.Poster !== "N/A"
-                    ? poster.Poster
-                    : "https://via.placeholder.com/300x450?text=No+Image"
-                }
-                alt={poster.Title}
-                fluid
-              />
+              <Link to={`/details/${poster.imdbID}`}>
+                <Image
+                  src={
+                    poster.Poster !== "N/A"
+                      ? poster.Poster
+                      : "https://via.placeholder.com/300x450?text=No+Image"
+                  }
+                  alt={poster.Title}
+                  fluid
+                />
+              </Link>
             </Col>
           ))}
         </Row>

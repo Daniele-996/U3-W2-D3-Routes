@@ -5,8 +5,8 @@ import MyNavbar from "./components/MyNavbar";
 import Footer from "./components/Footer";
 import CreateGallery from "./components/CreateGallery";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import TVShow from "./components/TV Show";
-import MovieDetails from "./components/MovieDatails";
+import TVShow from "./components/TVShow";
+import MovieDetails from "./components/MovieDetails";
 import NotFound from "./components/NotFound";
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
           }
         ></Route>
         <Route path="/tvshows" element={<TVShow />} />
-        <Route path="/details" element={<MovieDetails />} />
+        <Route path="/details/:imdbID" element={<MovieDetails />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer />
